@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPT Kahoot 참여</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="login-container" class="container">
+    <h1>Kahoot 참여하기</h1>
+    <input type="text" id="name-input" placeholder="이름을 입력하세요">
+    <button id="join-button">참여하기</button>
+</div>
+
+<div id="game-container" class="container" style="display:none;">
+    <div id="user-info">
+        <span id="user-name-display"></span>님, 환영합니다!
+    </div>
+    <div id="status-message">다음 문제를 기다리는 중...</div>
+    <div id="answer-buttons">
+        <button class="answer-btn shape-triangle" data-choice="A" disabled>A</button>
+        <button class="answer-btn shape-diamond" data-choice="B" disabled>B</button>
+        <button class="answer-btn shape-circle" data-choice="C" disabled>C</button>
+        <button class="answer-btn shape-square" data-choice="D" disabled>D</button>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script src="app.js"></script>
+
+</body>
+</html>
