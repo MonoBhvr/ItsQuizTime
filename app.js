@@ -31,6 +31,21 @@ const joinButton = document.getElementById('join-button');
 const userNameDisplay = document.getElementById('user-name-display');
 const statusMessage = document.getElementById('status-message');
 const answerButtons = Array.from(document.querySelectorAll('.answer-btn'));
+const userScoreDisplay = document.getElementById('user-score-display');
+
+// listenToUserScore 함수를 아래 코드로 교체
+function listenToUserScore() {
+    if (!userId) return;
+    const userScoreRef = database.ref('users/' + userId + '/score');
+    userScoreRef.on('value', (snapshot) => {
+        const score = snapshot.val();
+        userScore = score !== null ? score : 0; // userScore 전역 변수 업데이트
+
+        // ★★★ 변경점: 화면의 점수 표시 업데이트 ★★★
+        userScoreDisplay.textContent = userScore;
+        console.log("현재 점수 업데이트:", userScore);
+    });
+}
 
 
 // -- 이벤트 리스너 --
@@ -40,6 +55,12 @@ joinButton.addEventListener('click', () => {
     userName = nameInput.value.trim();
     if (!userName) {
         alert('이름을 입력해주세요.');
+        return;
+    }
+    //사용 가능 이름 리스트 선언
+    const canuseNames = [고은혁, 김라은, 라은, 김무준, 무준, 김소은, 소은, 김진교, 진교, 김준원, 준원, 문성혁, 성혁, 박재현, 재현, 박진우, 진우, 박현준, 현준, 백재원, 재원, 심민섭, 민섭, 여지민, 지민, 여지훈, 지훈, 우리나, 리나, 유도현, 도현, 이강현, 강현, 이승찬, 승찬, 이은채, 은채, 이한영, 한영, 이현서, 현서, 이현승, 현승, 임다환, 다환, 임우진, 우진, 조성빈, 성빈, 최재혁, 재혁, 최태현, 태현, 최현서];
+    if(!(UserName in canuseNames)){
+        alert('사용할 수 없는 이름입니다.');
         return;
     }
 
@@ -107,17 +128,6 @@ function listenToGameState() {
             statusMessage.textContent = "다음 문제를 기다리는 중...";
             disableAllButtons();
         }
-    });
-}
-
-// ★★★ 새로 추가: 사용자 점수 실시간 감시 ★★★
-function listenToUserScore() {
-    if (!userId) return;
-    const userScoreRef = database.ref('users/' + userId + '/score');
-    userScoreRef.on('value', (snapshot) => {
-        // Firebase에서 점수가 변경될 때마다 userScore 변수를 업데이트
-        userScore = snapshot.val();
-        console.log("현재 점수 업데이트:", userScore);
     });
 }
 
